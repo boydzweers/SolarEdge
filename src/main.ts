@@ -91,3 +91,5 @@ export default class SolarEdge {
 		return this._solarEdgeGetRequest(`energyDetails`, { startTime, endTime });
 	};
 }
+
+//
