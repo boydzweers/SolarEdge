@@ -1,6 +1,5 @@
-import axios, { AxiosRequestConfig } from 'axios';
+import axios from 'axios';
 
-export type Period = 'DAY' | 'QUARTER_OF_AN_HOUR' | 'MONTH' | 'HOUR' | 'WEEK' | 'MONTH' | 'YEAR';
 export interface Options {
 	startTime?: string;
 	endTime?: string;
@@ -80,42 +79,3 @@ export default class SolarEdge {
 		return this._solarEdgeGetRequest(`energyDetails`, { startTime, endTime });
 	};
 }
-
-// ('use strict');
-
-// import axios from 'axios';
-
-// const serializeOptions = (options: object) => {
-// 	var str = [];
-// 	for (var p in options)
-// 		if (options.hasOwnProperty(p)) {
-// 			str.push(encodeURIComponent(p) + '=' + encodeURIComponent(options[p]));
-// 		}
-// 	return `&${str.join('&')}`;
-// };
-
-// /**
-//  * Site current power, energy production (today, this month, lifetime) and lifetime revenue
-//  */
-// const getOverview = async () => {
-// 	return _solerGetRequest('overview', {});
-// };
-
-// /**
-//  * Detailed site energy measurements including meters such as consumption, export (feed-in),
-//  * import (purchase), etc.
-//  * @param  {String} startTime yyyy-MM-DD hh:mm:ss
-//  * @param  {String} endTime yyyy-MM-DD hh:mm:ss
-//  */
-// const getEnergyDetails = (startTime: string, endTime: string) => {
-// 	if (!startTime || !endTime) return;
-// 	return _solerGetRequest(`energyDetails`, { startTime, endTime });
-// };
-
-// const run = async function () {
-// 	const details = await getEnergyDetails('2021-05-01 00:00:00', '2021-05-05 23:59:59');
-// 	console.log(details);
-// 	return details;
-// };
-
-// run();
