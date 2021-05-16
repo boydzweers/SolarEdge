@@ -13,6 +13,7 @@ export default class SolarEdge {
 	constructor(private API_KEY: string, private SITE_ID: number) {}
 
 	/**
+	 * Enable logging for development
 	 * @param  {boolean} bool
 	 * @returns void
 	 */
@@ -20,7 +21,11 @@ export default class SolarEdge {
 		this.logging = bool;
 	}
 
-	public serializeOptions = (options: Options) => {
+	/**
+	 * Serialize the given options to a query string
+	 * @param  {Options} options
+	 */
+	public serializeOptions = (options: Options): string => {
 		if (Object.keys(options).length === 0) return '';
 		var str = [];
 		for (var p in options)
@@ -30,7 +35,12 @@ export default class SolarEdge {
 		return `&${str.join('&')}`;
 	};
 
-	public generateURL = (path: string, options: Options) => {
+	/**
+	 * Format the request URL
+	 * @param  {string} path
+	 * @param  {Options} options
+	 */
+	public generateURL = (path: string, options: Options): string => {
 		if (path.charAt(0) === '/') path = path.substring(1);
 		if (path.slice(-1) === '/') path = path.slice(0, -1);
 		const opts = this.serializeOptions(options);
@@ -39,6 +49,7 @@ export default class SolarEdge {
 	};
 
 	/**
+	 * Fetch the SolarEdge Monitoring API
 	 * @param  {String} path
 	 * @param  {Object} options
 	 */
@@ -62,6 +73,7 @@ export default class SolarEdge {
 	};
 
 	/**
+	 * getSolarEdgeOverview
 	 * Site current power, energy production (today, this month, lifetime) and lifetime revenue
 	 */
 	public getSolarEdgeOverview = async () => {
