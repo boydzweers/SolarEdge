@@ -1,8 +1,16 @@
 import axios from 'axios';
 
+export type TimeUnit = 'DAY' | 'QUARTER_OF_AN_HOUR' | 'HOUR' | 'WEEK' | 'MONTH' | 'YEAR';
+export type Meters = 'PRODUCTION' | 'CONSUMPTION' | 'SELFCONSUMPTION' | 'FEEDIN' | 'PURCHASED';
+export type SystemUnits = 'Metrics' | 'Imperial';
+
 export interface Options {
 	startTime?: string;
 	endTime?: string;
+	timeUnit?: TimeUnit;
+	meters?: Meters;
+	serials?: string;
+	systemUnits?: SystemUnits;
 }
 
 export default class SolarEdge {
@@ -53,7 +61,7 @@ export default class SolarEdge {
 	 * @param  {String} path
 	 * @param  {Object} options
 	 */
-	public _solarEdgeGetRequest = async (path: string, options: Options) => {
+	public _solarEdgeGetRequest = async (path: string, options: Options = {}) => {
 		try {
 			const url = this.generateURL(path, options);
 			if (this.logging) {
@@ -76,9 +84,7 @@ export default class SolarEdge {
 	 * getSolarEdgeOverview
 	 * Site current power, energy production (today, this month, lifetime) and lifetime revenue
 	 */
-	public getSolarEdgeOverview = async () => {
-		return this._solarEdgeGetRequest('overview', {});
-	};
+	public getSolarEdgeOverview = async () => this._solarEdgeGetRequest('overview');
 
 	/**
 	 * Detailed site energy measurements including meters such as consumption, export (feed-in),
@@ -90,6 +96,42 @@ export default class SolarEdge {
 		if (!startTime || !endTime) return;
 		return this._solarEdgeGetRequest(`energyDetails`, { startTime, endTime });
 	};
-}
 
-//
+	/**
+	 * Description: Retrieves the current power flow between all elements of the site including PV array, storage (battery), loads
+	 * (consumption) and grid.
+	 *
+	 * Note: Applies when export , import and consumption can be measured.
+	 * @param  {string} startTime
+	 * @param  {string} endTime
+	 */
+	public getSolarEdgeCurrentPowerFlow = (startTime: string, endTime: string) =>
+		this._solarEdgeGetRequest(`currentPowerFlow`);
+
+	/**
+	 * Get detailed storage information from batteries: the state of energy, power and lifetime energy.
+	 *
+	 * Note: Applicable to systems with batteries
+	 * @param  {string} startTime
+	 * @param  {string} endTime
+	 * @param  {string} serials
+	 */
+	public getSolarEdgeStorageData = (startTime: string, endTime: string, serials: string) => {
+		if (!startTime || !endTime) return;
+		return this._solarEdgeGetRequest(`currentPowerFlow`, { startTime, endTime, serials });
+	};
+
+	/**
+	 * Returns all environmental benefits based on site energy production: CO2 emissions saved, equivalent trees planted,
+	 * and light bulbs powered for a day.
+	 * @param  {SystemUnits} systemUnits
+	 */
+	public getSolarEdgeEnvironmentalBenefits = (systemUnits: SystemUnits) =>
+		this._solarEdgeGetRequest(`envBenefits`, { systemUnits });
+
+	/**
+	 * Return the inventory of SolarEdge equipment in the site, including inverters/SMIs, batteries, meters, gateways and
+	 * sensors.
+	 */
+	public getSolarEdgeInventory = () => this._solarEdgeGetRequest(`inventory`);
+}
