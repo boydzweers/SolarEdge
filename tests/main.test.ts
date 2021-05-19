@@ -8,15 +8,15 @@ const solarEdge = new Solaredge('KEY', 123456);
 
 describe('test generateURL function', () => {
   it('should format the correct url', () => {
-    expect(solarEdge.generateURL('overview', {})).toBe(
+    expect(solarEdge.generateURL('overview', {}, 'site')).toBe(
       'https://monitoringapi.solaredge.com/site/123456/overview?api_key=KEY&format=json',
     );
 
-    expect(solarEdge.generateURL('overview', {})).toBe(
+    expect(solarEdge.generateURL('overview', {}, 'site')).toBe(
       'https://monitoringapi.solaredge.com/site/123456/overview?api_key=KEY&format=json',
     );
 
-    expect(solarEdge.generateURL('overview/', {})).toBe(
+    expect(solarEdge.generateURL('overview/', {}, 'site')).toBe(
       'https://monitoringapi.solaredge.com/site/123456/overview?api_key=KEY&format=json',
     );
   });
