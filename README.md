@@ -13,4 +13,5 @@
 - StorageData
 - EnvironmentalBenefits
 - Inventory
-- ...
+- Equipment
+- InverterTechData
