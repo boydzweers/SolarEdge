@@ -20,7 +20,9 @@ export default class SolarEdge {
 
   public HOST = 'https://monitoringapi.solaredge.com/';
 
-  public BASE_PATH = 'site';
+  public SITE_BASE_PATH = 'site';
+
+  public EQUIPMENT_BASE_PATH = 'equipment';
 
   public logging = false;
 
@@ -57,12 +59,12 @@ export default class SolarEdge {
    * @param  {string} pathIn
    * @param  {Options} options
    */
-  public generateURL = (pathIn: string, options: Options): string => {
+  public generateURL = (pathIn: string, options: Options, basePath: string): string => {
     let path: string = pathIn;
     if (pathIn.charAt(0) === '/') path = pathIn.substring(1);
     if (pathIn.slice(-1) === '/') path = pathIn.slice(0, -1);
     const opts = this.serializeOptions(options);
-    const url = `${this.HOST}${this.BASE_PATH}/${this.SITE_ID}/${path}?api_key=${this.API_KEY}&format=json${opts}`;
+    const url = `${this.HOST}${basePath}/${this.SITE_ID}/${path}?api_key=${this.API_KEY}&format=json${opts}`;
     return url;
   };
 
@@ -71,9 +73,13 @@ export default class SolarEdge {
    * @param  {String} path
    * @param  {Object} options
    */
-  public solarEdgeGetRequest = async (path: string, options: Options = {}) => {
+  public solarEdgeGetRequest = async (
+    path: string,
+    options: Options = {},
+    basePath: string = this.SITE_BASE_PATH,
+  ) => {
     try {
-      const url = this.generateURL(path, options);
+      const url = this.generateURL(path, options, basePath);
       if (this.logging) {
         // eslint-disable-next-line no-console
         console.table({ path, options, url });
@@ -149,4 +155,38 @@ export default class SolarEdge {
    * sensors.
    */
   public getInventory = () => this.solarEdgeGetRequest('inventory');
+
+  /**
+   * Return a list of inverters/SMIs in the specific site.
+   */
+  public getEquipment = () => this.solarEdgeGetRequest('list', {}, this.EQUIPMENT_BASE_PATH);
+
+  /**
+   * Return the serialNumber of the inverter.
+   * TODO result of the equipment list call can be a list. So we could receive multiple items
+   * Serial numbers. This need to be handeld.
+   */
+  public getInverterShortSN = async (): Promise<string> => {
+    const equipment = await this.solarEdgeGetRequest('list', {}, this.EQUIPMENT_BASE_PATH);
+    let shortSerialNumber = '';
+    if (equipment && equipment.reporters.count === 1) {
+      shortSerialNumber = equipment.reporters.list[0].serialNumber;
+    }
+    return shortSerialNumber;
+  };
+
+  /**
+   * Return specific inverter data for a given timeframe. ( Max one week )
+   * /equipment/{siteId}/{serialNumber}/data
+   * @param  {string} startTime
+   * @param  {string} endTime
+   */
+  public getInverterTechData = async (startTime: string, endTime: string): Promise<object> => {
+    const inverterShortSN = await this.getInverterShortSN();
+    return this.solarEdgeGetRequest(
+      `${inverterShortSN}/data`,
+      { startTime, endTime },
+      this.EQUIPMENT_BASE_PATH,
+    );
+  };
 }
