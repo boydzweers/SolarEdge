@@ -93,3 +93,69 @@ describe('test getEnergyDetails function', () => {
     expect(resp).toStrictEqual(mockedResponse);
   });
 });
+
+describe('test getInverterShortSN function', () => {
+  it('should return the serialnumber of the inverter', async () => {
+    const mockedResponse = {
+      reporters: {
+        count: 1,
+        list: [
+          {
+            name: 'Inverter',
+            manufacturer: 'SolarEdge',
+            model: 'Model',
+            serialNumber: 'SN123',
+            kWpDC: null,
+          },
+        ],
+      },
+    };
+
+    mockedAxios
+      .onGet('https://monitoringapi.solaredge.com/equipment/123456/list?api_key=KEY&format=json')
+      .reply(200, mockedResponse);
+
+    const resp = await solarEdge.getInverterShortSN();
+    expect(resp).toStrictEqual('SN123');
+  });
+});
+
+describe('test getInverterTechData function', () => {
+  it('should return detailt information about the inverter', async () => {
+    const mockedResponse = {
+      reporters: {
+        count: 1,
+        list: [
+          {
+            name: 'Inverter',
+            manufacturer: 'SolarEdge',
+            model: 'Model',
+            serialNumber: 'SN123',
+            kWpDC: null,
+          },
+        ],
+      },
+    };
+
+    mockedAxios
+      .onGet('https://monitoringapi.solaredge.com/equipment/123456/list?api_key=KEY&format=json')
+      .reply(200, mockedResponse);
+
+    mockedAxios
+      .onGet(
+        'https://monitoringapi.solaredge.com/equipment/123456/SN123/data?api_key=KEY&format=json&startTime=2021-01-01%2000%3A00%3A00&endTime=2021-01-01%2023%3A59%3A59',
+      )
+      .reply(200, {});
+
+    const resp = await solarEdge.getInverterTechData('2021-01-01 00:00:00', '2021-01-01 23:59:59');
+    expect(resp).toMatchObject({});
+  });
+});
+
+describe('test logger function', () => {
+  it('should be called', () => {
+    expect.assertions(1);
+    solarEdge.logger(true);
+    expect(true).toBeTruthy();
+  });
+});
