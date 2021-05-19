@@ -95,7 +95,7 @@ export default class SolarEdge {
    * getSolarEdgeOverview
    * Site current power, energy production (today, this month, lifetime) and lifetime revenue
    */
-  public getSolarEdgeOverview = async () => this.solarEdgeGetRequest('overview');
+  public getOverview = async () => this.solarEdgeGetRequest('overview');
 
   /**
    * Detailed site energy measurements including meters such as consumption, export (feed-in),
@@ -103,7 +103,7 @@ export default class SolarEdge {
    * @param  {String} startTime yyyy-MM-DD hh:mm:ss
    * @param  {String} endTime yyyy-MM-DD hh:mm:ss
    */
-  public getSolarEdgeEnergyDetails = (startTime: string, endTime: string) => {
+  public getEnergyDetails = (startTime: string, endTime: string) => {
     if (!startTime || !endTime) return {};
     return this.solarEdgeGetRequest('energyDetails', { startTime, endTime });
   };
@@ -117,7 +117,7 @@ export default class SolarEdge {
    * @param  {string} startTime
    * @param  {string} endTime
    */
-  public getSolarEdgeCurrentPowerFlow = () => this.solarEdgeGetRequest('currentPowerFlow');
+  public getCurrentPowerFlow = () => this.solarEdgeGetRequest('currentPowerFlow');
 
   /**
    * Get detailed storage information from batteries: the state of energy,
@@ -128,7 +128,7 @@ export default class SolarEdge {
    * @param  {string} endTime
    * @param  {string} serials
    */
-  public getSolarEdgeStorageData = (startTime: string, endTime: string, serials: string) => {
+  public getStorageData = (startTime: string, endTime: string, serials: string) => {
     if (!startTime || !endTime) return {};
     return this.solarEdgeGetRequest('currentPowerFlow', { startTime, endTime, serials });
   };
@@ -139,7 +139,7 @@ export default class SolarEdge {
    * and light bulbs powered for a day.
    * @param  {SystemUnits} systemUnits
    */
-  public getSolarEdgeEnvironmentalBenefits = (systemUnits: SystemUnits) => {
+  public getEnvironmentalBenefits = (systemUnits: SystemUnits) => {
     this.solarEdgeGetRequest('envBenefits', { systemUnits });
   };
 
@@ -148,5 +148,5 @@ export default class SolarEdge {
    * batteries, meters, gateways and
    * sensors.
    */
-  public getSolarEdgeInventory = () => this.solarEdgeGetRequest('inventory');
+  public getInventory = () => this.solarEdgeGetRequest('inventory');
 }
