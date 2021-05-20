@@ -34,7 +34,7 @@
   "scripts": {
     "dev": "npx ts-node dev/r.ts",
     "build": "tsc --declaration",
-    "test": "jest --coverage",
+    "test": "jest --coverage || exit 0",
     "lint": "eslint . --ext .ts",
     "format": "prettier --write \"src/**/*.ts\"",
     "prepare": "npm run build",
@@ -43,9 +43,29 @@
     "version": "npm run format && git add -A src",
     "postversion": "git push && git push --tags"
   },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.ts"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 95,
+        "functions": 95,
+        "lines": 95,
+        "statements": 95
+      }
+    }
+  },
   "files": [
     "lib/**/*"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:boydzweers/solaredge.git"
+  },
+  "bugs": {
+    "url": "https://github.com/boydzweers/solaredge/issues"
+  },
   "author": "Boyd Zweers <b.lacsap2@gmail.com>",
   "license": "MIT",
   "homepage": "https://www.github.com/boydzweers/solaredge"

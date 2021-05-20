@@ -1,10 +1,16 @@
 language: node_js
 node_js:
   - 14
-script:
-  - 'npm run build'
-  - 'npm run lint'
-  - 'npm run test'
-  - 'npm install codecov -g'
+jobs:
+  include:
+    - stage: release
+      script:
+        - npm run build
+        - npm run lint
+        - npm run test
+        - npm install codecov -g
+cache:
+  directories:
+    - node_modules
 after_success:
   - codecov
