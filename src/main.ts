@@ -5,6 +5,7 @@ export type Meters = 'PRODUCTION' | 'CONSUMPTION' | 'SELFCONSUMPTION' | 'FEEDIN'
 export type SystemUnits = 'Metrics' | 'Imperial';
 
 export interface Options {
+  [key: string]: any;
   startTime?: string;
   endTime?: string;
   timeUnit?: TimeUnit;
