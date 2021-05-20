@@ -3,7 +3,9 @@
 [![Build Status](https://travis-ci.com/boydzweers/SolarEdge.svg?branch=main)](https://travis-ci.com/boydzweers/SolarEdge)
 [![codecov](https://codecov.io/gh/boydzweers/SolarEdge/branch/main/graph/badge.svg?token=SCC6FDYG8S)](https://codecov.io/gh/boydzweers/SolarEdge)
 
-# SolarEdge Intergration
+# SolarEdge Inverter Adapter
+
+## Connect to your SolarEdge Inverter
 
 ## includes
 
