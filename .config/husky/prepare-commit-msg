@@ -1,7 +1,4 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-BRANCH_NAME=$(git branch 2>/dev/null | grep -e ^* | tr -d ' *')
-if [ -n "$BRANCH_NAME" ]; then
-    echo "[$BRANCH_NAME] $(cat $1)" > $1
-fi
+npx --no-install jira-prepare-commit-msg "$1"
