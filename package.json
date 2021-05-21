@@ -16,6 +16,8 @@
     "typescript": "^4.2.4"
   },
   "devDependencies": {
+    "@commitlint/cli": "^12.1.4",
+    "@commitlint/config-conventional": "^12.1.4",
     "@types/axios": "^0.14.0",
     "@types/axios-mock-adapter": "^1.10.0",
     "@types/jest": "^26.0.23",
@@ -23,21 +25,25 @@
     "@typescript-eslint/eslint-plugin": "^4.24.0",
     "@typescript-eslint/parser": "^4.24.0",
     "axios-mock-adapter": "^1.19.0",
+    "cz-conventional-changelog": "^3.3.0",
     "eslint": "^7.26.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.23.2",
     "eslint-plugin-jest": "^24.3.6",
+    "husky": "^6.0.0",
     "jest": "^26.6.3",
     "prettier": "^2.3.0",
     "ts-jest": "^26.5.6"
   },
   "scripts": {
+    "cm": "git-cz",
     "dev": "npx ts-node dev/r.ts",
     "build": "tsc --declaration",
-    "test": "jest --coverage",
+    "test": "jest",
+    "test:coverage": "npm run test -- --coverage --watchAll=false",
     "lint": "eslint . --ext .ts",
     "format": "prettier --write \"src/**/*.ts\"",
-    "prepare": "npm run build",
+    "prepare": "npm run build && husky install",
     "prepublishOnly": "npm test && npm run lint",
     "preversion": "npm run lint",
     "version": "npm run format && git add -A src",
@@ -46,7 +52,19 @@
   "files": [
     "lib/**/*"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:boydzweers/solaredge.git"
+  },
+  "bugs": {
+    "url": "https://github.com/boydzweers/solaredge/issues"
+  },
   "author": "Boyd Zweers <b.lacsap2@gmail.com>",
   "license": "MIT",
-  "homepage": "https://www.github.com/boydzweers/solaredge"
+  "homepage": "https://www.github.com/boydzweers/solaredge",
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
 }
