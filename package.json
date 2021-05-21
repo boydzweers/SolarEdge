@@ -11,6 +11,7 @@
   "types": "lib/main.d.ts",
   "dependencies": {
     "axios": "^0.21.1",
+    "axios-mock-adapter": "^1.19.0",
     "eslint-import-resolver-typescript": "^2.4.0",
     "moment": "^2.29.1",
     "typescript": "^4.2.4"
@@ -24,7 +25,6 @@
     "@types/moment": "^2.13.0",
     "@typescript-eslint/eslint-plugin": "^4.24.0",
     "@typescript-eslint/parser": "^4.24.0",
-    "axios-mock-adapter": "^1.19.0",
     "commitizen": "^4.2.4",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^7.26.0",
