@@ -8,6 +8,7 @@ jobs:
         - npm run build
         - npm run lint
         - npm run test
+        - npm run test:coverage
         - npm install codecov -g
 cache:
   directories:
