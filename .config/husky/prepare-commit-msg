@@ -1,4 +1,4 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-npx --no-install jira-prepare-commit-msg "$1"
+exec < /dev/tty && node_modules/.bin/git-cz --hook || true

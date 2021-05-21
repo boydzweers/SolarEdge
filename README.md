@@ -17,5 +17,3 @@
 - Inventory
 - Equipment
 - InverterTechData
-- test
-  -asdasd
