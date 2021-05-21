@@ -34,7 +34,7 @@
   "scripts": {
     "dev": "npx ts-node dev/r.ts",
     "build": "tsc --declaration",
-    "test": "jest --coverage || exit 0",
+    "test": "jest --coverage --watchAll=false || exit 0",
     "lint": "eslint . --ext .ts",
     "format": "prettier --write \"src/**/*.ts\"",
     "prepare": "npm run build",
